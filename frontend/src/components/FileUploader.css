@@ -1,0 +1,55 @@
+.file-uploader {
+  width: 100%;
+}
+
+.upload-area {
+  border: 2px dashed #3498db;
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+  background: #f8fafc;
+  transition: all 0.3s ease;
+}
+
+.upload-area:hover {
+  border-color: #2980b9;
+  background: #f1f5f9;
+}
+
+.file-input {
+  display: none;
+}
+
+.upload-message {
+  color: #64748b;
+}
+
+.upload-message p {
+  margin: 0.5rem 0;
+}
+
+.select-files-btn {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 1rem;
+}
+
+.select-files-btn:hover {
+  background: #2980b9;
+}
+
+.select-files-btn:active {
+  transform: translateY(1px);
+}
+
+/* Drag and drop states */
+.file-uploader.dragging .upload-area {
+  border-color: #2980b9;
+  background: #f1f5f9;
+} 
