@@ -1,41 +1,44 @@
 package com.fileupload.services
 
 import org.apache.commons.compress.compressors.gzip.{GzipCompressorInputStream, GzipCompressorOutputStream}
-import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
-import scala.util.Try
 
-class CompressionService {
-  def compress(data: Array[Byte]): Try[Array[Byte]] = Try {
+import java.io.{ByteArrayInputStream, ByteArrayOutputStream, OutputStream}
+import scala.concurrent.{ExecutionContext, Future}
+import scala.util.{Try, Using}
+
+trait CompressionService {
+  def compress(data: Array[Byte]): Future[Array[Byte]]
+
+  def decompress(data: Array[Byte]): Future[Array[Byte]]
+}
+
+
+object CompressionService {
+  def apply()(implicit executionContext: ExecutionContext): CompressionService = {
+    CompressionServiceImpl()
+  }
+}
+
+case class CompressionServiceImpl()(implicit executionContext: ExecutionContext) extends CompressionService {
+  override def compress(data: Array[Byte]): Future[Array[Byte]] = Future {
     val outputStream = new ByteArrayOutputStream()
     val gzipOutputStream = new GzipCompressorOutputStream(outputStream)
-    
-    try {
-      gzipOutputStream.write(data)
-      gzipOutputStream.close()
-      outputStream.toByteArray
-    } finally {
-      gzipOutputStream.close()
-      outputStream.close()
+
+    Using.resources(outputStream, gzipOutputStream) { (bos: ByteArrayOutputStream, compressor: GzipCompressorOutputStream) =>
+      compressor.write(data)
+      bos.toByteArray
     }
   }
 
-  def decompress(compressedData: Array[Byte]): Try[Array[Byte]] = Try {
+
+  override def decompress(compressedData: Array[Byte]): Future[Array[Byte]] = Future {
     val inputStream = new ByteArrayInputStream(compressedData)
     val gzipInputStream = new GzipCompressorInputStream(inputStream)
     val outputStream = new ByteArrayOutputStream()
-    
-    try {
-      val buffer = new Array[Byte](1024)
-      var n = gzipInputStream.read(buffer)
-      while (n != -1) {
-        outputStream.write(buffer, 0, n)
-        n = gzipInputStream.read(buffer)
-      }
-      outputStream.toByteArray
-    } finally {
-      gzipInputStream.close()
-      inputStream.close()
-      outputStream.close()
+
+    Using.resources(inputStream, gzipInputStream, outputStream) { (is, decompressor, os) =>
+      decompressor.transferTo(os)
+      os.toByteArray
     }
   }
 } 

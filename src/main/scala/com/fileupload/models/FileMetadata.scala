@@ -2,7 +2,7 @@ package com.fileupload.models
 
 import java.time.Instant
 import spray.json.DefaultJsonProtocol._
-import spray.json.RootJsonFormat
+import spray.json.{JsString, RootJsonFormat}
 
 case class FileMetadata(
     id: String,
@@ -18,8 +18,8 @@ case class FileMetadata(
 
 object FileMetadata {
   implicit val instantFormat: RootJsonFormat[Instant] = new RootJsonFormat[Instant] {
-    def write(instant: Instant) = spray.json.JsString(instant.toString)
-    def read(value: spray.json.JsValue) = Instant.parse(value.convertTo[String])
+    def write(instant: Instant): JsString = spray.json.JsString(instant.toString)
+    def read(value: spray.json.JsValue): Instant = Instant.parse(value.convertTo[String])
   }
 
   implicit val fileMetadataFormat: RootJsonFormat[FileMetadata] = jsonFormat9(FileMetadata.apply)

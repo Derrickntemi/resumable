@@ -1,0 +1,35 @@
+[versions]
+shadowGradlePluginVerison = "8.1.1"
+pekkoHttpBomVersion = "1.1.0"
+scalaVersion = "2.13.9"
+pekkoVersion = "1.1.2"
+doobieVersion = "1.0.0-RC2"
+mongoDBVersion = "4.6.0"
+oAuthVersion = "4.0.0"
+apacheCommonsCompressVersion = "1.26.0"
+bouncyCastleVersion = "1.70"
+scalaLoggingVersion = "3.9.5"
+log4jVersion = "2.24.3"
+sprayJson = "1.1.0"
+
+[libraries]
+pekkoHttpBom = { module = "org.apache.pekko:pekko-http-bom_3", version.ref = "pekkoHttpBomVersion" }
+pekkoHttp = { module = "org.apache.pekko:pekko-http_3" }
+sprayJson = { module = "org.apache.pekko:pekko-http-spray-json_3" }
+scalaLibrary = { module = "org.scala-lang:scala-library", version.ref = "scalaVersion" }
+pekkoActorTyped = { module = "org.apache.pekko:pekko-actor-typed_2.13", version.ref = "pekkoVersion" }
+pekkoStream = { module = "org.apache.pekko:pekko-stream_2.13", version.ref = "pekkoVersion" }
+mongoScalaDriver = { module = "org.mongodb.scala:mongo-scala-driver_2.13", version.ref = "mongoDBVersion" }
+doobieCore = { module = "org.tpolecat:doobie-core_2.13", version.ref = "doobieVersion" }
+doobieMongodb = { module = "org.tpolecat:doobie-mongodb_2.13", version.ref = "doobieVersion" }
+javaJwt = { module = "com.auth0:java-jwt", version.ref = "oAuthVersion" }
+commonsCompress = { module = "org.apache.commons:commons-compress", version.ref = "apacheCommonsCompressVersion" }
+bouncyCastle = { module = "org.bouncycastle:bcprov-jdk15on", version.ref = "bouncyCastleVersion" }
+log4jCore = { module = "org.apache.logging.log4j:log4j-core", version.ref = "log4jVersion" }
+log4jApi = { module = "org.apache.logging.log4j:log4j-api", version.ref = "log4jVersion" }
+log4jSlf4jBinding = { module = "org.apache.logging.log4j:log4j-slf4j-impl", version.ref = "log4jVersion" }
+scalaLogging = { module = "com.typesafe.scala-logging:scala-logging_2.13", version.ref = "scalaLoggingVersion" }
+
+
+[plugins]
+shadowGradlePlugin = { id = "com.github.johnrengelman.shadow", version.ref = "shadowGradlePluginVerison" }

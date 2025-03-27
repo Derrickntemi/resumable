@@ -29,6 +29,16 @@ class FileDownloadRoute(
     path("api" / "v1" / "files" / "download" / Segment) { fileId =>
       get {
         optionalHeaderValueByName("Range") { rangeHeader =>
+          
+          for {
+            metadata <- storageService.getFileMetadata(fileId)
+            _ <- metadata match {
+              case Some(value) => 
+                val range = rangeHeader.flatMap(parseRange)
+                
+              case None => ???
+            }
+          }
           onComplete(storageService.getFileMetadata(fileId)) {
             case Success(Some(metadata)) =>
               val range = rangeHeader.flatMap(parseRange)

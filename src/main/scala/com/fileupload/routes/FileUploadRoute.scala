@@ -41,7 +41,7 @@ class FileUploadRoute(
                     val checksum = calculateChecksum(rawData)
 
                     for {
-                      compressed <- Future.fromTry(compressionService.compress(rawData))
+                      compressed <- compressionService.compress(rawData)
                       (encrypted, iv) <- Future.fromTry(encryptionService.encrypt(compressed))
                       chunk = FileChunk(uploadId, chunkNumberInt, encrypted ++ iv, checksum)
                       _ <- storageService.saveChunk(chunk)

@@ -1,6 +1,6 @@
 package com.fileupload.services
 
-import com.fileupload.models.{FileMetadata, FileChunk, ChunkMetadata}
+import com.fileupload.models.{FileMetadata, FileChunk}
 import org.mongodb.scala._
 import org.mongodb.scala.model.Filters._
 import org.mongodb.scala.model.Updates._
